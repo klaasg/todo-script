@@ -18,6 +18,7 @@ function add {
     for arg in "$@"
     do
         echo "Adding ${arg}"
+        echo -e "$(date +%d/%m/%Y)\t${arg}" >> ~/.todo
     done
 }
 
