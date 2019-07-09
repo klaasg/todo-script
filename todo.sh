@@ -11,7 +11,21 @@ fi
 # there is a function for every action: list, add and remove
 
 function list {
-    echo "list $@"
+    # match with regex, all arguments should be possible, so "|"
+    # this will result in "*opt1*|*opt2*|*opt3*
+    regex="*$1*"
+    shift
+    for arg in "$@"
+    do
+        regex="${regex}|*${arg}*"
+    done
+    regex="${regex%|\*}"
+    echo "${regex}"
+
+    for line in ~/.todo
+    do
+        [[ "${line}" ~= "${regex}" ]]
+    done
 }
 
 function add {
