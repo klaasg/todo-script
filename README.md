@@ -9,7 +9,7 @@ For example:
 The actual time format is still to be determined, options are a standard form like DD/MM/YY or unix epoch time.
 
 
-How this script should behave:
+## How this script should behave:
 * no arguments: display everything todo
 * first argument is `add`: add other of arguments to todo
 * first argument is `remove`: for each of the arguments after remove, remove all entries containing that word, with conformation
