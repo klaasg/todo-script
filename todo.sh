@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Is there a todo file?
-if [[ ! -f "~/.todo" ]]
+if [[ ! -f ~/.todo ]]
 then
     echo "There is no todo file."
     echo -e "Creating empty todo file ~/.todo\n"
@@ -15,7 +15,10 @@ function list {
 }
 
 function add {
-    echo "add $@"
+    for arg in "$@"
+    do
+        echo "Adding ${arg}"
+    done
 }
 
 function remove {
