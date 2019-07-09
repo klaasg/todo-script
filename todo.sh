@@ -3,8 +3,8 @@
 # Is there a todo file?
 if [[ ! -f "~/.todo" ]]
 then
-    echo "There is no todo file at ~/.todo"
-    echo "Creating empty todo file ~/.todo"
+    echo "There is no todo file."
+    echo -e "Creating empty todo file ~/.todo\n"
     touch ~/.todo
 fi
 
