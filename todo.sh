@@ -12,20 +12,21 @@ fi
 
 function list {
     # match with regex, all arguments should be possible, so "|"
-    # this will result in "*opt1*|*opt2*|*opt3*
-    regex="*$1*"
-    shift
+    # this will result in ".*opt1.*|.*opt2.*|.*opt3.*, everything in uppercase
+    regex=""
     for arg in "$@"
     do
-        regex="${regex}|*${arg}*"
+        regex="${regex}|.*${arg^^}.*"
     done
-    regex="${regex%|\*}"
-    echo "${regex}"
+    # remove leading "|", spaces need to be quoted
+    regex="$(sed 's/ /\\ /g' <<< "${regex#|}")"
 
-    for line in ~/.todo
+    # read ~/.todo line by line
+    echo "Matched todo's:"
+    while read -r line
     do
-        [[ "${line}" ~= "${regex}" ]]
-    done
+        [[ "${line^^}" =~ ${regex} ]] && echo -e "\t${line}"
+    done < ~/.todo
 }
 
 function add {
