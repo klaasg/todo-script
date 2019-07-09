@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Is there a todo file?
+if [[ ! -f "~/.todo" ]]
+then
+    echo "There is no todo file at ~/.todo"
+    echo "Creating empty todo file ~/.todo"
+    touch ~/.todo
+fi
+
 # there is a function for every action: list, add and remove
 
 function list {
