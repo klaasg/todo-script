@@ -8,25 +8,32 @@ then
     touch ~/.todo
 fi
 
-# there is a function for every action: list, add and remove
+# find is for the list and remove functions to find todo's 
 
-function list {
-    # match with regex, all arguments should be possible, so "|"
-    # this will result in ".*opt1.*|.*opt2.*|.*opt3.*, everything in uppercase
-    regex=""
-    for arg in "$@"
-    do
-        regex="${regex}|.*${arg^^}.*"
-    done
-    # remove leading "|", spaces need to be quoted
-    regex="$(sed 's/ /\\ /g' <<< "${regex#|}")"
-
+function find {
     # read ~/.todo line by line
-    echo "Matched todo's:"
     while read -r line
     do
         [[ "${line^^}" =~ ${regex} ]] && echo -e "\t${line}"
     done < ~/.todo
+}
+
+# there is a function for every action: list, add and remove
+
+function list {
+    # match with regex, all arguments should be possible, so "|"
+    # this will result in ".*opt1.*|.*opt2.*|...|.*optN.*", everything in uppercase
+    regex=""
+    for arg in "$@"
+    do
+        # empty or whitespace arguments ruin the regex (first part checks that)
+        [[ -z "${arg// /}" ]] || regex="${regex}|.*${arg^^}.*"
+    done
+    # remove leading "|", spaces need to be quoted
+    regex="$(sed 's/ /\\ /g' <<< "${regex#|}")"
+
+    [[ $# -eq 0 ]] || echo "Matched todo's:"
+    find
 }
 
 function add {
