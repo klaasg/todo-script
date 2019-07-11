@@ -12,9 +12,12 @@ fi
 
 function find {
     # read ~/.todo line by line
+    found_file=$(mktemp)
+    index=0     # also keeping track of the index, for possibly removing later
     while read -r line
     do
-        [[ "${line^^}" =~ ${regex} ]] && echo -e "\t${line}"
+        [[ "${line^^}" =~ ${regex} ]] && echo -e "${index}\t${line}" >> ${found_file}
+        ((index++))
     done < ~/.todo
 }
 
@@ -34,6 +37,12 @@ function list {
 
     [[ $# -eq 0 ]] || echo "Matched todo's:"
     find
+    while read -r number todo
+    do
+        echo "${todo}"
+    done < ${found_file}
+
+    rm ${found_file}    # removing the temporary file
 }
 
 function add {
