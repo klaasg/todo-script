@@ -25,7 +25,7 @@ function find {
     # read ~/.todo line by line, save found todo's in file
     found_file=$(mktemp)
 
-    line_number=0     # also keeping track of the line number, for possibly removing later
+    line_number=1     # also keeping track of the line number, for possibly removing later
     while read -r date hour todo
     do
         [[ "${todo^^}" =~ ${regex} ]] && echo -e "${line_number}\t${todo}" >> ${found_file}
@@ -39,7 +39,7 @@ function list {
     find "$@"
 
     # write out the matched todo's
-    [[ $# -eq 0 ]] || echo "Matched todo's:"
+    [[ $# -eq 0 ]] || echo "$(wc -l ${found_file} | cut -d" " -f1) matche(s) found"
     while read -r line_number todo
     do
         echo -e "\t${todo}"
@@ -63,14 +63,18 @@ function remove {
     removing=""     # line numbers to remove
     while read -r line_number todo
     do
-        echo -e "\t${todo}"
-        read answer </dev/tty
+        echo -en "\t${todo}\n\t"
+        read -r -p "Do you want to delete this todo? [Y/n] " answer </dev/tty
+
         if [[ "${answer,,}" =~ ^(y|yes)$ ]] || [[ -z "${answer}" ]]
         then
-            removing="${removing} ${line_number}"
+            removing="${removing}${line_number} "
         fi
     done < ${found_file}
-    echo ${removing}
+
+    # now deleting with `sed -i '1d; 3d; ...' ~/.todo`
+    removing=${removing// /d; }
+    sed -i "${removing}" ~/.todo
 
     rm ${found_file}    # removing the temporary file
 }
