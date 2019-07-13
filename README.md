@@ -1,6 +1,6 @@
 # A script that handles ToDo
 
-#### This small project is considered almost done, except for small changes or improvements. You can suggest anything to add or improve!
+#### This small project is considered (almost) done, except for small changes or improvements. You can suggest anything to add or improve!
 
 The script saves a todo file, `~/.todo`. This is a tab seperated file with two columns: one for the time added and one for the actual thing to do.
 For example:
