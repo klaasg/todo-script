@@ -1,23 +1,27 @@
 # A script that handles ToDo
 
+### This simple script supports adding, viewing and removing todo's!
+
 #### This small project is considered (almost) done, except for small changes or improvements. You can suggest anything to add or improve!
 
-The script saves a todo file, `~/.todo`. This is a tab seperated file with two columns: one for the time added and one for the actual thing to do.
-For example:
-```
-01/01/19 00:00    make a todo script
-02/02/19 15:42    study
-```
-
-## How this script should behave:
-* no arguments: display everything todo
-* first argument is `add`: add other of arguments to todo
-* first argument is `remove`: for each of the arguments after remove, remove all entries containing that word, with conformation
-* first argument is something else: display todo but filtered on arguments
-
 ## Current state of implementation:
-Everything below should work properly.
+Sample output:
 ```
+$ todo add "Work on project" "Commit project" "Go to sleep"
+Adding Work on project
+Adding Commit project
+Adding Go to sleep
+$ todo project
+2 matche(s) found
+	Work on project
+	Commit project
+$ todo -r sleep
+1 matche(s) found
+	Go to sleep
+	Do you want to delete this todo? [Y/n] y
+$ todo -t
+	13/07/2019 20:50:	Work on project
+	13/07/2019 20:50:	Commit project
 $ todo.sh --help
 usage:  todo.sh [ -t ] [ arg ... ]"
             List all todo's that match with args
@@ -30,4 +34,14 @@ usage:  todo.sh [ -t ] [ arg ... ]"
         Options:
             -t:     Display when todo was added.
 ```
-The `-t` option should always come after `remove|--remove|-r`, because mostly lazyness
+Everything in the usage should be implemented properly.
+The `-t` option should always come after `remove|--remove|-r`, mostly because of lazyness
+
+## Info on implementation:
+The script saves a file, `~/.todo`. This is a tab seperated file with two columns: one for the time added and one for the actual thing to do.
+For example:
+```
+01/01/19 00:00    make a todo script
+02/02/19 15:42    study
+```
+
