@@ -98,6 +98,7 @@ usage:  $(basename $0) [ -t ] [ arg ... ]"
             Add all todo's with name 'arg'
         $(basename $0) remove|-r|--remove [ -t ] [ arg ... ]
             Remove, with confirmation, all todo's that match with arg
+
         When matching, no arguments match all todo's
         Options: 
             -t:     Display when todo was added.
