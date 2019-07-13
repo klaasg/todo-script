@@ -83,19 +83,23 @@ function remove {
 
 function usage {
     # display usage
-    echo "usage"
-}
+    cat <<USAGE
+usage:  $(basename $0) [ arg ... ]"
+            List all todo's that match with args
+        $(basename $0) add|-a|--add [ arg ... ]
+            Add all todo's with name 'arg'
+        $(basename $0) remove|-r|--remove [ arg ... ]
+            Remove, with confirmation, all todo's that match with arg
+        When matching, no arguments match all todo's
+USAGE
 
-function help {
-    # display help
-    echo "help"
 }
 
 # no use of getopts because it's very simple
 
 case $1 in
     --help|-h)
-        help
+        usage
     ;;
     add|--add|-a)
         shift
