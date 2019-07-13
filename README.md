@@ -2,7 +2,7 @@
 
 ### This simple script supports adding, viewing and removing todo's!
 
-#### This small project is considered (almost) done, except for small changes or improvements. You can suggest anything to add or improve!
+This small project is considered (almost) done, except for small changes or improvements. You can suggest anything to add or improve!
 
 ## Current state of implementation:
 Sample output:
