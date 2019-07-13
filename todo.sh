@@ -26,12 +26,20 @@ function find {
     [[ $(command -v mktemp) ]] || { echo "Please install 'mktemp'"; exit 1; }
     found_file=$(mktemp)
 
+
     line_number=1     # also keeping track of the line number, for possibly removing later
     while read -r date hour todo
     do
-        [[ "${todo^^}" =~ ${regex} ]] && echo -e "${line_number}\t${todo}" >> ${found_file}
+        if [[ "${todo^^}" =~ ${regex} ]] 
+        then
+            [[ ${time_option} ]] && todo="${date} ${hour}:\t${todo}"    # if -d is set
+            echo -e "${line_number}\t${todo}" >> ${found_file}
+        fi
         ((line_number++))
     done < ~/.todo
+
+    # write out the amount of matches
+    [[ $# -ne 0 ]] && echo "$(wc -l ${found_file} | cut -d" " -f1) matche(s) found"
 }
 
 # there is a function for every action: list, add and remove
@@ -40,7 +48,6 @@ function list {
     find "$@"
 
     # write out the matched todo's
-    [[ $# -eq 0 ]] || echo "$(wc -l ${found_file} | cut -d" " -f1) matche(s) found"
     while read -r line_number todo
     do
         echo -e "\t${todo}"
@@ -85,15 +92,16 @@ function remove {
 function usage {
     # display usage
     cat <<USAGE
-usage:  $(basename $0) [ arg ... ]"
+usage:  $(basename $0) [ -t ] [ arg ... ]"
             List all todo's that match with args
         $(basename $0) add|-a|--add [ arg ... ]
             Add all todo's with name 'arg'
-        $(basename $0) remove|-r|--remove [ arg ... ]
+        $(basename $0) remove|-r|--remove [ -t ] [ arg ... ]
             Remove, with confirmation, all todo's that match with arg
         When matching, no arguments match all todo's
+        Options: 
+            -t:     Display when todo was added.
 USAGE
-
 }
 
 # no use of getopts because it's very simple
@@ -107,8 +115,14 @@ case $1 in
         add "$@"
     ;;
     remove|--remove|-r)
+        [[ "$2" == "-t" ]] && { time_option=1; shift; }
         shift
         remove "$@"
+    ;;
+    -t)
+        time_option=1
+        shift
+        list "$@"
     ;;
     *)
         list "$@"
