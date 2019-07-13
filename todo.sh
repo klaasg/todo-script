@@ -23,6 +23,7 @@ function find {
     regex="$(sed 's/ /\\ /g' <<< "${regex#|}")"
 
     # read ~/.todo line by line, save found todo's in file
+    [[ $(command -v mktemp) ]] || { echo "Please install 'mktemp'"; exit 1; }
     found_file=$(mktemp)
 
     line_number=1     # also keeping track of the line number, for possibly removing later
