@@ -35,7 +35,7 @@ usage:  todo.sh [ -t ] [ arg ... ]"
             -t:     Display when todo was added.
 ```
 Everything in the usage should be implemented properly.
-The `-t` option should always come after `remove|--remove|-r`, mostly because of lazyness
+The `-t` option should always come after `remove|--remove|-r`, mostly because of lazyness.
 
 ## Info on implementation:
 The script saves a file, `~/.todo`. This is a tab seperated file with two columns: one for the time added and one for the actual thing to do.
